@@ -6,11 +6,11 @@ import Transactions from "./components/Transactions/Transactions";
 
 function App() {
     return (
-        <div>
+        <>
             <PageHeader/>
             <Search/>
             <Transactions/>
-        </div>
+        </>
     );
 }
 
