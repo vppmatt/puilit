@@ -3,18 +3,29 @@ import TransactionTableRow from "./TransactionTableRow";
 import {
     getAllCountries,
     getAllPayments,
-    getAllPaymentsAxiosVersion,
-    getAllPaymentsFromServer
 } from "../../data/dataFunctions";
+import {useEffect, useState} from "react";
 
 const Transactions = () => {
 
-    const transactions = getAllPayments();
+    console.log("transactions is rendering")
+    const [transactions, setTransactions] = useState([]);
 
-    const paymentsPromise = getAllPaymentsAxiosVersion();
-    paymentsPromise.then ( response => {
-        console.log(response.data);
-    })
+    const getTheData = () => {
+        const paymentsPromise = getAllPayments();
+        paymentsPromise.then(response => {
+            if (response.status === 200) {
+                setTransactions(response.data);
+            } else {
+                console.log("something went wrong " + response.status)
+            }
+        })
+            .catch(error => console.log("error", error));
+    }
+
+    useEffect( () => {
+        getTheData();
+    } , [])
 
     getAllCountries().then(response => console.log(response.data));
 
