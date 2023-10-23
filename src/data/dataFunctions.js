@@ -7,6 +7,11 @@ export const getAllPayments = () => {
     headers: {'Accept': 'application/json'}})
 }
 
+export const getAllPaymentsForCountry = (country) => {
+    return axios({url : `${serverURL}/api/payment?country=${country}`, method : "GET",
+        headers: {'Accept': 'application/json'}})
+}
+
 export const getAllCountries = () => {
     return axios({url : `${serverURL}/api/country`, method : "GET",
         headers: {'Accept': 'application/json'}})

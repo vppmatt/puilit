@@ -2,7 +2,7 @@ import './Transactions.css';
 import TransactionTableRow from "./TransactionTableRow";
 import {
     getAllCountries,
-    getAllPayments,
+    getAllPayments, getAllPaymentsForCountry,
 } from "../../data/dataFunctions";
 import {useEffect, useState} from "react";
 
@@ -10,12 +10,17 @@ const Transactions = () => {
 
     console.log("transactions is rendering")
     const [transactions, setTransactions] = useState([]);
+    const [countries, setCountries] = useState([]);
+    const [selectedCountry, setSelecteCountry] = useState("");
+    const [loading, setLoading] = useState(false);
 
     const getTheData = () => {
-        const paymentsPromise = getAllPayments();
+        setLoading(true);
+        const paymentsPromise = getAllPaymentsForCountry(selectedCountry);
         paymentsPromise.then(response => {
             if (response.status === 200) {
                 setTransactions(response.data);
+                setLoading(false);
             } else {
                 console.log("something went wrong " + response.status)
             }
@@ -24,13 +29,27 @@ const Transactions = () => {
     }
 
     useEffect( () => {
-        getTheData();
-    } , [])
+        getAllCountries().then(response => setCountries(response.data.sort()))
+        }
+    , []);
 
-    getAllCountries().then(response => console.log(response.data));
+    useEffect( () => {
+        if (selectedCountry !== "") getTheData();
+    }, [selectedCountry])
+
+    const handleCountryChange = (event) => {
+        setSelecteCountry(event.target.value);
+    }
 
     return (
         <div>
+            <div style={ {marginLeft: "auto", marginRight: "auto", width: "fit-content", marginTop: "50px"}   } >
+                Select country: <select defaultValue="" onChange={handleCountryChange} >
+                <option value="" disabled={true}>---select---</option>
+                {countries.map( country => <option value={country} key={country} >{country}</option>)}
+            </select></div>
+            {loading && <p>Please wait...loading</p>}
+            { selectedCountry !== "" &&
             <table className="transactionsTable">
                         <thead>
                         <tr>
@@ -50,6 +69,8 @@ const Transactions = () => {
                                                                               amount={transaction.amount}/>) }
                         </tbody>
                     </table>
+            }
+            {selectedCountry === "" && <p style={ {marginLeft: "auto", marginRight: "auto", width: "fit-content"}   }>Please select a country</p>}
                 </div>
           
     )
