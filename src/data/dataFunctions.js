@@ -1,5 +1,7 @@
 import axios from "axios";
 
+const serverURL = "http://localhost:8080";
+
 export const getAllPayments = () => {
     return [
         {id: 101, amount: 160, country: "USA", currency: "USD", date: "2017-01-31", order_id:"21216652", tax_code: 0, tax_rate: 0, type: "SALE"},
@@ -18,16 +20,16 @@ export const getAllPayments = () => {
 }
 
 export const getAllPaymentsFromServer = () => {
-    return fetch("http://localhost:8080/api/payment",
+    return fetch(`${serverURL}/api/payment`,
         {method : "GET", headers: new Headers({'Accept': 'application/json'})});
 }
 
 export const getAllPaymentsAxiosVersion = () => {
-    return axios({url : "http://localhost:8080/api/payment", method : "GET",
+    return axios({url : `${serverURL}/api/payment`, method : "GET",
     headers: {'Accept': 'application/json'}})
 }
 
 export const getAllCountries = () => {
-    return axios({url : "http://localhost:8080/api/country", method : "GET",
+    return axios({url : `${serverURL}/api/country`, method : "GET",
         headers: {'Accept': 'application/json'}})
 }

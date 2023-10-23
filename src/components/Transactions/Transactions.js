@@ -10,20 +10,6 @@ import {
 const Transactions = () => {
 
     const transactions = getAllPayments();
-    /*
-    const paymentsPromise = getAllPaymentsFromServer();
-
-    paymentsPromise
-        .then ( response => {
-            console.log(response);
-            response.json().then (data => {
-                console.log(data);
-            })
-
-        })
-        .catch( error => console.log("error", error));
-        *
-     */
 
     const paymentsPromise = getAllPaymentsAxiosVersion();
     paymentsPromise.then ( response => {
