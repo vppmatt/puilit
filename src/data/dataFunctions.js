@@ -16,3 +16,12 @@ export const getAllCountries = () => {
     return axios({url : `${serverURL}/api/country`, method : "GET",
         headers: {'Accept': 'application/json'}})
 }
+
+export const addNewTransaction = (transaction) => {
+    return axios({
+        url : `${serverURL}/api/payment`,
+        method: "POST",
+        headers : {'Accept': 'application/json', 'Content-Type' : 'application/json'},
+        data : transaction
+    })
+}
