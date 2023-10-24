@@ -1,9 +1,6 @@
 import './Transactions.css';
 import TransactionTableRow from "./TransactionTableRow";
-import {
-    getAllCountries,
-    getAllPayments, getAllPaymentsForCountry,
-} from "../../data/dataFunctions";
+import {getAllCountries, getAllPaymentsForCountry} from "../../data/dataFunctions";
 import {useEffect, useState} from "react";
 
 const Transactions = () => {
@@ -13,6 +10,7 @@ const Transactions = () => {
     const [countries, setCountries] = useState([]);
     const [selectedCountry, setSelecteCountry] = useState("");
     const [loading, setLoading] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
 
     const getTheData = () => {
         setLoading(true);
@@ -22,14 +20,16 @@ const Transactions = () => {
                 setTransactions(response.data);
                 setLoading(false);
             } else {
-                console.log("something went wrong " + response.status)
+                setErrorMessage("something went wrong " + response.status)
             }
         })
-            .catch(error => console.log("error", error));
+            .catch(error => setErrorMessage("error : " + error));
     }
 
     useEffect( () => {
-        getAllCountries().then(response => setCountries(response.data.sort()))
+        getAllCountries()
+            .then(response => setCountries(response.data.sort()))
+            .catch(error => setErrorMessage("error : " + error));
         }
     , []);
 
@@ -49,6 +49,7 @@ const Transactions = () => {
                 {countries.map( country => <option value={country} key={country} >{country}</option>)}
             </select></div>
             {loading && <p>Please wait...loading</p>}
+            <p style={{textAlign: "center", color: "red"}}>{errorMessage}</p>
             { selectedCountry !== "" &&
             <table className="transactionsTable">
                         <thead>
