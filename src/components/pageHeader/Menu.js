@@ -1,19 +1,12 @@
+import {Link} from "react-router-dom";
 
 
-const Menu = (props) => {
-
-    const find = () => {
-        props.setCurrentPage("find");
-    }
-
-    const add = () => {
-        props.setCurrentPage("add");
-    }
+const Menu = () => {
 
     return (
         <ul className="nav">
-            <li onClick={find}>Find a transaction</li>
-            <li onClick={add}>New transaction</li>
+            <li> <Link to="/find">Find a transaction</Link></li>
+            <li> <Link to="/add">New transaction</Link></li>
         </ul>
     );
 }

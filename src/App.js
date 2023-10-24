@@ -5,23 +5,22 @@ import Search from "./components/Search/Search";
 import Transactions from "./components/Transactions/Transactions";
 import {useState} from "react";
 import AddTransaction from "./components/add/AddTransaction";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
+import FindPage from "./components/FindPage";
 
 function App() {
 
-    const [currentPage, setCurrentPage] = useState("find");
-
     return (
-        <>
-            <PageHeader setCurrentPage = {setCurrentPage} />
+        <BrowserRouter>
+            <PageHeader/>
 
-            {currentPage === "find" &&
-            <>
-                <Search/>
-                <Transactions/>
-            </>
-            }
-            {currentPage === "add" && <AddTransaction />}
-        </>
+            <Routes>
+                <Route path="/find" element ={ <FindPage /> } />
+                <Route path="/add" element = { <AddTransaction /> } />
+                <Route path="/" element = { <h1>Welcome to the payments app</h1>} />
+             </Routes>
+
+        </BrowserRouter>
     );
 }
 
