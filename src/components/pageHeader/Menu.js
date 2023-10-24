@@ -1,10 +1,19 @@
 
 
-const Menu = () => {
+const Menu = (props) => {
+
+    const find = () => {
+        props.setCurrentPage("find");
+    }
+
+    const add = () => {
+        props.setCurrentPage("add");
+    }
+
     return (
         <ul className="nav">
-            <li>Find a transaction</li>
-            <li>New transaction</li>
+            <li onClick={find}>Find a transaction</li>
+            <li onClick={add}>New transaction</li>
         </ul>
     );
 }
