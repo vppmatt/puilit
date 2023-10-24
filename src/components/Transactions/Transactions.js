@@ -2,6 +2,7 @@ import './Transactions.css';
 import TransactionTableRow from "./TransactionTableRow";
 import {getAllCountries, getAllPaymentsForCountry} from "../../data/dataFunctions";
 import {useEffect, useState} from "react";
+import {useSearchParams} from "react-router-dom";
 
 const Transactions = () => {
 
@@ -11,6 +12,8 @@ const Transactions = () => {
     const [selectedCountry, setSelecteCountry] = useState("");
     const [loading, setLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
+
+    const [searchParams, setSearchParams] = useSearchParams();
 
     const getTheData = () => {
         setLoading(true);
@@ -28,7 +31,13 @@ const Transactions = () => {
 
     useEffect( () => {
         getAllCountries()
-            .then(response => setCountries(response.data.sort()))
+            .then(response => {
+                setCountries(response.data.sort());
+                const country = searchParams.get("country");
+                if (selectedCountry !== country) {
+                    setSelecteCountry(country);
+                }
+            })
             .catch(error => setErrorMessage("error : " + error));
         }
     , []);
@@ -39,12 +48,13 @@ const Transactions = () => {
 
     const handleCountryChange = (event) => {
         setSelecteCountry(event.target.value);
+        setSearchParams({country: event.target.value})
     }
 
     return (
         <div>
             <div style={ {marginLeft: "auto", marginRight: "auto", width: "fit-content", marginTop: "50px"}   } >
-                Select country: <select defaultValue="" onChange={handleCountryChange} >
+                Select country: <select value={selectedCountry} onChange={handleCountryChange} >
                 <option value="" disabled={true}>---select---</option>
                 {countries.map( country => <option value={country} key={country} >{country}</option>)}
             </select></div>
