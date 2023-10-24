@@ -25,3 +25,8 @@ export const addNewTransaction = (transaction) => {
         data : transaction
     })
 }
+
+export const getAllPaymentsForOrderId = (orderId) => {
+    return axios({url : `${serverURL}/api/payment?order=${orderId}`, method : "GET",
+        headers: {'Accept': 'application/json'}})
+}

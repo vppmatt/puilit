@@ -1,11 +1,14 @@
 import './Search.css';
 import {useState} from "react";
+import {useNavigate} from "react-router-dom";
 
 const Search = () => {
 
     const [orderId, setOrderId] = useState("");
     const [isValid, setIsValid] = useState(false);
     const [hasBeenEdited, setHasBeenEdited] = useState(false);
+
+    const navigate = useNavigate();
 
     const handleChange = (event) => {
         console.log(event.target)
@@ -18,7 +21,7 @@ const Search = () => {
 
     const doSearch = (event) => {
         event.preventDefault();
-        console.log("searching for " + orderId);
+        navigate(`/find/${orderId}`);
     }
 
     return (
